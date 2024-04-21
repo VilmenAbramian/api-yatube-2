@@ -12,6 +12,7 @@ class Group(models.Model):
     def __str__(self):
         return self.title
 
+
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
@@ -36,7 +37,7 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
-    
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -45,6 +46,7 @@ class Follow(models.Model):
     following = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="following"
     )
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -52,5 +54,6 @@ class Follow(models.Model):
                 name='unique_user_following'
             )
         ]
+
     def __str__(self) -> str:
         return self.following
