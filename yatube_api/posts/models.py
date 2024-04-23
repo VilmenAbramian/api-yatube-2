@@ -36,7 +36,7 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ("author",)
+        ordering = ("pub_date",)
 
     def __str__(self):
         return self.text[:MAX_TEXT_LEN]
@@ -52,7 +52,7 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return f'Пост {self.post[:MAX_TEXT_LEN]} автора {self.author}'
+        return f'Пост {self.post} автора {self.author}'
 
 
 class Follow(models.Model):

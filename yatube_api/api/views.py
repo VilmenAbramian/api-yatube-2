@@ -13,7 +13,7 @@ from api.serializers import (
 from posts.models import Group, Post
 
 
-class MixinViewSet(
+class CreateListViewSet(
     viewsets.ModelViewSet,
     mixins.CreateModelMixin,
     mixins.ListModelMixin
@@ -51,13 +51,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=self.get_post())
 
 
-class FollowViewSet(MixinViewSet):
+class FollowViewSet(CreateListViewSet):
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter, )
     search_fields = ('following__username',)
 
     def get_queryset(self):
-        return self.request.user.followers
+        return self.request.user.followers.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
