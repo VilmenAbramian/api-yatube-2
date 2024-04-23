@@ -20,11 +20,10 @@ class Group(models.Model):
         verbose_name = 'Группа'
 
     def __str__(self):
-        return self.title[0:MAX_TEXT_LEN]
+        return self.title[:MAX_TEXT_LEN]
 
 
 class Post(models.Model):
-    ordering = ("-pub_date", "author")
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
@@ -36,8 +35,11 @@ class Post(models.Model):
         related_name='posts', blank=True, null=True
     )
 
+    class Meta:
+        ordering = ("author",)
+
     def __str__(self):
-        return self.text[0:MAX_TEXT_LEN]
+        return self.text[:MAX_TEXT_LEN]
 
 
 class Comment(models.Model):
@@ -50,7 +52,7 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return f'Пост {self.post[0:MAX_TEXT_LEN]} автора {self.author}'
+        return f'Пост {self.post[:MAX_TEXT_LEN]} автора {self.author}'
 
 
 class Follow(models.Model):
